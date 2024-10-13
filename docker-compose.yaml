@@ -1,40 +1,40 @@
 version: '3'
 services:
-  selelnium-hub:
+  selenium-hub:
     image: selenium/hub:latest
     ports:
-    - "4444:4444"
+      - "4444:4444"
   chrome-node:
-    images: selenium/node-chrome:latest
-    shm_size: 2gb
-    depends_on: 
-      - selelnium-hub
-    environment:
-      - SE_EVENT_BUS_HOST=selelnium-hub
-      - SE_EVENT_BUS_PUBLISH_PORT=4442
-      - SE-SE_EVENT_BUS_SUBSCRIBE_PORT=4443
-      - SE_NODE_MAX_SESSIONS=2
-      - SE_NODE_SESSION_TIMEOUT=30
-      - SE_NODE_OVERRIDE_MAX_SESSIONS=true
-  edge-node:
-    images: selenium/node-edge:latest
+    image: selenium/node-chrome:latest
     shm_size: 2gb
     depends_on:
-      - selelnium-hub
+      - selenium-hub
     environment:
-      - SE_EVENT_BUS_HOST=selelnium-hub
+      - SE_EVENT_BUS_HOST=selenium-hub
       - SE_EVENT_BUS_PUBLISH_PORT=4442
-      - SE-SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
       - SE_NODE_MAX_SESSIONS=2
       - SE_NODE_SESSION_TIMEOUT=30
       - SE_NODE_OVERRIDE_MAX_SESSIONS=true
   firefox-node:
-    images: selenium/node-firefox:latest
+    image: selenium/node-firefox:latest
     shm_size: 2gb
-    depends_on: 
-      - selelnium-hub
+    depends_on:
+      - selenium-hub
     environment:
-      - SE_EVENT_BUS_HOST=selelnium-hub
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - SE_NODE_MAX_SESSIONS=2
+      - SE_NODE_SESSION_TIMEOUT=30
+      - SE_NODE_OVERRIDE_MAX_SESSIONS=true
+  edge-node:
+    image: selenium/node-edge:latest
+    shm_size: 2gb
+    depends_on:
+      - selenium-hub
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
       - SE_EVENT_BUS_PUBLISH_PORT=4442
       - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
       - SE_NODE_MAX_SESSIONS=2
